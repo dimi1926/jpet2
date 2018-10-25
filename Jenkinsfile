@@ -8,7 +8,7 @@ pipeline {
     }
     stage('run') {
       steps {
-        powershell(script: 'runmaven.bat', encoding: 'utf-8')
+        bat (script: 'runmaven.bat', encoding: 'utf-8')
       }
     }
     stage('Publication') {
