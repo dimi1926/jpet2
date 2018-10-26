@@ -3,32 +3,40 @@ pipeline {
   stages {
     stage('Recuperation') {
       steps {
-        git(credentialsId: 'loginGithub', branch: 'master', url: 'https://github.com/dimi1926/jpet2.git')
+       git( url: 'https://github.com/dimi1926/jpet2.git',  branch: 'master', credentialsId: 'loginGithub')
+
       }
     }
-    stage('Maven Install') {
+    stage('Maven install') {
       steps {
-        bat (script: 'runmaven.bat', encoding: 'utf-8')
+        bat(encoding: 'utf-8', script: 'runmaven.bat')
       }
     }
     stage('Qualimetrie') {
       steps {
-        bat (script: 'runmaven.bat', encoding: 'utf-8')
+        withSonarQubeEnv('SonarQube'){
+          bat(encoding: 'utf-8', script: 'runsonar.bat')
+        }
+        
       }
+    }
+    stage('Quality Gate') {
+      steps {
+        sleep 10
+          timeout(time: 4, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+          }
     }
     stage('Publication') {
       steps {
-        nexusArtifactUploader artifacts: [ 
-              [ artifactId:'jpetstore',  type:'war', classifier:'debug', file:'target/jpetstore.war']
-          ],
-          nexusVersion: 'nexus3',
-          protocol: 'http',
-          nexusUrl: 'localhost:8081/',
-          groupId: 'jpetstore',
-          version: '1.0-SNAPSHOT',
-          repository: 'maven-snapshots',
-          credentialsId: 'loginNexus'            
+        nexusArtifactUploader(artifacts: [
+                         [ artifactId:'jpetstore', type:'war', classifier:'debug', file:'target/jpetstore.war']
+                    ], credentialsId: 'AdminNexus', groupId: 'jpetstore', nexusUrl: 'localhost:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0-SNAPSHOT')
+        }
       }
     }
   }
-}
+
+
+
