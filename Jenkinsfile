@@ -11,6 +11,7 @@ pipeline {
         bat (script: 'runmaven.bat', encoding: 'utf-8')
       }
     }stage('qualimetrie') {
+        bat (script: 'runmaven.bat', encoding: 'utf-8')
       
     }
     stage('Publication') {
