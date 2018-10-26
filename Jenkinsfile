@@ -1,21 +1,19 @@
 pipeline {
   agent any
   stages {
-    stage('git') {
+    stage('Recuperation') {
       steps {
         git(credentialsId: 'loginGithub', branch: 'master', url: 'https://github.com/dimi1926/jpet2.git')
       }
     }
-    stage('run') {
+    stage('Maven Install') {
       steps {
         bat (script: 'runmaven.bat', encoding: 'utf-8')
       }
     }
-    stage('qualimetrie') {
+    stage('Qualimetrie') {
       steps {
-        withSonarQubeEnv('SonarQubeEnv') {
         bat (script: 'runmaven.bat', encoding: 'utf-8')
-     }
       }
     }
     stage('Publication') {
