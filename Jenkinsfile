@@ -32,7 +32,7 @@ pipeline {
       steps {
         nexusArtifactUploader(artifacts: [
                          [ artifactId:'jpetstore', type:'war', classifier:'debug', file:'target/jpetstore.war']
-                    ], credentialsId: 'AdminNexus', groupId: 'jpetstore', nexusUrl: 'localhost:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0-SNAPSHOT')
+                    ], credentialsId: 'adminNexus', groupId: 'jpetstore', nexusUrl: 'localhost:8081/', nexusVersion: 'nexus3', protocol: 'http', repository: 'maven-snapshots', version: '1.0-SNAPSHOT')
         }
       }
     }
