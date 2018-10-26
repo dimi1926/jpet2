@@ -13,8 +13,10 @@ pipeline {
     }
     stage('qualimetrie') {
       steps {
+        withSonarQubeEnv('SonarQubeEnv') {
         bat (script: 'runmaven.bat', encoding: 'utf-8')
      }
+      }
     }
     stage('Publication') {
       steps {
