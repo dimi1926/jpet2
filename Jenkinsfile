@@ -14,7 +14,7 @@ pipeline {
     }
     stage('Qualimetrie') {
       steps {
-        withSonarQubeEnv('SonarQube'){
+        withSonarQubeEnv('SonarQubeEnv'){
           bat(encoding: 'utf-8', script: 'runsonar.bat')
         }
         
