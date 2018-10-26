@@ -10,7 +10,8 @@ pipeline {
       steps {
         bat (script: 'runmaven.bat', encoding: 'utf-8')
       }
-    }stage('qualimetrie') {
+    }
+    stage('qualimetrie') {
       steps {
         bat (script: 'runmaven.bat', encoding: 'utf-8')
       }
